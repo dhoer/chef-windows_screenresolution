@@ -8,7 +8,7 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[windows_screenresolution_test::default]
+      - recipe[windows_screenresolution::default]
     attributes:
       windows_screenresolution:
         username: vagrant

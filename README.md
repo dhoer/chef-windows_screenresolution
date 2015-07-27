@@ -9,9 +9,10 @@
 [travis]: https://travis-ci.org/dhoer/chef-windows_screenresolution
 [github]: https://github.com/dhoer/chef-windows_screenresolution/issues
 
-Sets headless screen resolution on Windows by creating a new user called `rdp_local` that RDP's into the specified 
-user account at specified screen resolution (default is 1920x1080).  It also configure Windows auto-logon to login 
-as `rdp_local` on reboot.
+Sets headless screen resolution on Windows.  It does this by creating a new user called `rdp_local` that has a
+startup script to RDP into the specified user account at specified screen resolution (default is 1920x1080). A
+firewall rule is created to open RDP port 3389. Finally, Windows auto-logon is configured to login as `rdp_local` 
+on reboot.
 
 Note that auto-logon requires a username and password and that the password is stored unencrypted under 
 windows registry `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`.
@@ -20,12 +21,17 @@ Tested on Amazon Windows Server 2012 R2 AMI.
 
 ## Requirements
 
-- Chef 11 or higher
-- Windows Server 2008 R2 or higher due to its API usage
+- Chef 11.6.0 or higher (includes a built-in registry_key resource)
+- Windows Server 2008 R2 or higher due to usage of [window_home](https://github.com/dhoer/chef-windows_home)
 
 ## Platforms
 
 - Windows
+
+## Cookbook Dependencies
+
+- windows_autologin
+- windows_home
 
 ## Usage
 
