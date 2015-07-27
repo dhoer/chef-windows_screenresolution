@@ -1,7 +1,7 @@
 default['windows_screenresolution']['username'] = nil
 default['windows_screenresolution']['password'] = nil
-default['windows_screenresolution']['width'] = 1600
-default['windows_screenresolution']['height'] = 1200
+default['windows_screenresolution']['width'] = 1920
+default['windows_screenresolution']['height'] = 1080
 
 default['windows_screenresolution']['target'] = 'localhost'
 default['windows_screenresolution']['rdp_autologon'] = true

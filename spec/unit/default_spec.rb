@@ -38,6 +38,11 @@ describe 'windows_screenresolution::default' do
       )
     end
 
+    it "generates user's home directory" do
+      expect(chef_run).to create_directory(
+        'C:/Users/rdp_local/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup')
+    end
+
     it 'creates rdp screen resolution startup script' do
       expect(chef_run).to create_template(
         'C:/Users/rdp_local/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/rdp_screenresolution.cmd')
@@ -77,7 +82,7 @@ describe 'windows_screenresolution::default' do
     end
 
     it 'logs display resolution' do
-      expect(chef_run).to write_log('Screen resolution set to 1440x900')
+      expect(chef_run).to write_log('screenresolution 1440x900')
     end
   end
 
@@ -87,7 +92,7 @@ describe 'windows_screenresolution::default' do
     end
 
     it 'should warn if not Windows platform' do
-      expect(chef_run).to write_log('Recipe windows_screenresolution::default is only available for Windows platform!')
+      expect(chef_run).to write_log('The windows_screenresolution cookbook is only for Windows platform!')
     end
   end
 end

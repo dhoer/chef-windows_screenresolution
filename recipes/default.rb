@@ -25,10 +25,15 @@ if platform?('windows')
 
   windows_home rdp_user do
     password rdp_password
+    action :create
   end
 
-  template "C:/Users/#{node['windows_screenresolution']['rdp_username']}"\
-    '/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/rdp_screenresolution.cmd' do
+  startup_path = "C:/Users/#{node['windows_screenresolution']['rdp_username']}"\
+    '/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup'
+
+  directory startup_path
+
+  template "#{startup_path}/rdp_screenresolution.cmd" do
     source 'rdp_screenresolution.cmd.erb'
     cookbook 'windows_screenresolution'
     variables(target: node['windows_screenresolution']['target'],
@@ -57,6 +62,7 @@ if platform?('windows')
     not_if "netsh advfirewall firewall show rule name=\"RDP\" > nul"
   end
 
+  # https://docs.chef.io/attributes.html#attribute-precedence
   if node['windows_screenresolution']['rdp_autologon']
     node.set['windows_autologin']['username'] = node['windows_screenresolution']['rdp_username']
     node.set['windows_autologin']['password'] = rdp_password
@@ -65,10 +71,9 @@ if platform?('windows')
     include_recipe 'windows_autologin::default'
   end
 
-  log 'Screen resolution set to '\
-    "#{node['windows_screenresolution']['width']}x#{node['windows_screenresolution']['height']}"
+  log "screenresolution #{node['windows_screenresolution']['width']}x#{node['windows_screenresolution']['height']}"
 else
-  log 'Recipe windows_screenresolution::default is only available for Windows platform!' do
+  log 'The windows_screenresolution cookbook is only for Windows platform!' do
     level :warn
   end
 end

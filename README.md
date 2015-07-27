@@ -2,20 +2,25 @@
 
 [![Cookbook Version](http://img.shields.io/cookbook/v/windows_screenresolution.svg?style=flat-square)][cookbook]
 [![Build Status](http://img.shields.io/travis/dhoer/chef-windows_screenresolution.svg?style=flat-square)][travis]
-[![GitHub Issues](http://img.shields.io/github/issues/dhoer/chef-windows_screenresolution.svg?style=flat-square)][github]
+[![GitHub Issues](http://img.shields.io/github/issues/dhoer/chef-windows_screenresolution.svg?style=flat-square)]
+[github]
 
 [cookbook]: https://supermarket.chef.io/cookbooks/windows_screenresolution
 [travis]: https://travis-ci.org/dhoer/chef-windows_screenresolution
 [github]: https://github.com/dhoer/chef-windows_screenresolution/issues
 
-Sets headless screen resolution on Windows.  It also contains a `screenresolution` library method that returns the 
-current screen resolution.
+Sets headless screen resolution on Windows by creating a new user called `rdp_local` that RDP's into the specified 
+user account at specified screen resolution (default is 1920x1080).  It also configure Windows auto-logon to login 
+as `rdp_local` on reboot.
+
+Note that auto-logon requires a username and password and that the password is stored unencrypted under 
+windows registry `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`.
 
 Tested on Amazon Windows Server 2012 R2 AMI.
 
 ## Requirements
 
-- Chef 11.6.0 or higher
+- Chef 11 or higher
 - Windows Server 2008 R2 or higher due to its API usage
 
 ## Platforms
@@ -24,69 +29,52 @@ Tested on Amazon Windows Server 2012 R2 AMI.
 
 ## Usage
 
-Include `windows_screenresolution` as a dependency to use `screenresolution` method.
-
-Method `screenresolution` returns display resolution (e.g. '1600x1200').
-
-#### Example
-
-```ruby
-display = screenresolution
-```
-
-### windows_screenresolution
-
-Creates a new Remote Desktop Protocol (RDP) user that logs into a specified user account at the display resolution
-required.  Note that auto-logon requires a username and password for auto-logon and that the password is stored
-unencrypted under windows registry `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`.
+Include default recipe in run list or in another cookbook to set the screen resolution. 
+The `username` and `password` must be set in order to user this cookbook.  
 
 #### Attributes
 
-- `username` - Username of account to remote login as (required).
-- `password` - Password of account to remote login as (required).
-- `width` -  Display width in pixels. Defaults to `1600`.
-- `height` - Display height in pixels. Defaults to `1200`.
-- `target` -   Identifies the computer or domain name that username and password account will be associated with
-for remote login. Defaults to `localhost`.
-- `rdp_autologon` - Logon as RDP user automatically on reboot. Defaults to `true`. Note that the password is stored
-unencrypted under windows registry `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`.
-- `rdp_username` -  RDP username. Defaults to `rdp_local`.
-- `rdp_password` - RDP password. Defaults to password of account to remote login as, if `nil`.
-- `rdp_domain` -  RDP domain. Defaults to `nil`.
+- `node['windows_screenresolution']['username']` - Username of account to remote login as (required).
+- `node['windows_screenresolution']['password']` - Password of account to remote login as (required).
+- `node['windows_screenresolution']['width']` -  Display width in pixels. Defaults to `1920`.
+- `node['windows_screenresolution']['height']` - Display height in pixels. Defaults to `1080`.
+- `node['windows_screenresolution']['target']` -   Identifies the computer or domain name that username and password 
+account will be associated with for remote login. Defaults to `localhost`.
+- `node['windows_screenresolution']['rdp_autologon']` - Logon as RDP user automatically on reboot. Defaults to `true`. 
+Note that the password is stored unencrypted under windows registry 
+`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`.
+- `node['windows_screenresolution']['rdp_username']` -  RDP username. Defaults to `rdp_local`.
+- `node['windows_screenresolution']['rdp_password']` - RDP password. Defaults to password of account to remote login 
+as, if `nil`.
+- `node['windows_screenresolution']['rdp_domain']` -  RDP domain. Defaults to `nil`.
 
-#### Example
+#### Examples
 
-```ruby
-windows_screenresolution 'newuser' do
-  password 'N3wPassW0Rd'
-  width 1440
-  height 900
-end
-```
-
-## ChefSpec Matchers
-
-The Chrome cookbook includes a custom [ChefSpec](https://github.com/sethvargo/chefspec) matcher you can use to test your
-own cookbooks.
-
-Example Matcher Usage
+Set newuser's screen resolution to `1920x1080` (default)
 
 ```ruby
-expect(chef_run).to run_windows_screenresolution('username').with(
-  password: 'N3wPassW0Rd'
-  width: 1440
-  height: 900
-)
+node.set['windows_screenresolution']['username'] = 'newuser'
+node.set['windows_screenresolution']['password'] = 'N3wPassW0Rd'
+
+include_recipe 'windows_screenresolution::default'
 ```
 
-Windows Display Cookbook Matcher
+Set newuser's screen resolution to `1366x768`
 
-- run_windows_screenresolution(username)
+```ruby
+node.set['windows_screenresolution']['username'] = 'newuser'
+node.set['windows_screenresolution']['password'] = 'N3wPassW0Rd'
+node.set['windows_screenresolution']['width'] = 1366
+node.set['windows_screenresolution']['height'] = 768
+
+include_recipe 'windows_screenresolution::default'
+```
 
 ## Getting Help
 
 - Ask specific questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/chef-windows_screenresolution).
-- Report bugs and discuss potential features in [Github issues](https://github.com/dhoer/chef-windows_screenresolution/issues).
+- Report bugs and discuss potential features in 
+[Github issues](https://github.com/dhoer/chef-windows_screenresolution/issues).
 
 ## Contributing
 
@@ -94,5 +82,5 @@ Please refer to [CONTRIBUTING](https://github.com/dhoer/chef-windows_screenresol
 
 ## License
 
-MIT - see the accompanying [LICENSE](https://github.com/dhoer/chef-windows_screenresolution/blob/master/LICENSE.md) file for
-details.
+MIT - see the accompanying [LICENSE](https://github.com/dhoer/chef-windows_screenresolution/blob/master/LICENSE.md) 
+file for details.
