@@ -23,15 +23,14 @@ if platform?('windows')
     end
   end
 
-  windows_home rdp_user do
-    password rdp_password
-    action :create
-  end
-
   startup_path = "C:/Users/#{node['windows_screenresolution']['rdp_username']}"\
     '/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup'
 
-  directory startup_path
+  ruby_block "hack to mkdir on windows" do
+    block do
+      FileUtils.mkdir_p startup_path
+    end
+  end
 
   template "#{startup_path}/rdp_screenresolution.cmd" do
     source 'rdp_screenresolution.cmd.erb'
