@@ -32,6 +32,12 @@ describe 'windows_screenresolution::default' do
       )
     end
 
+    it "generates user's home directory" do
+      expect(chef_run).to create_windows_home('rdp_local').with(
+        password: 'N3wPassW0Rd'
+      )
+    end
+
     it 'creates startup directory' do
       expect(chef_run).to run_ruby_block('hack to mkdir on windows')
     end

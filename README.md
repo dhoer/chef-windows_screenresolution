@@ -22,6 +22,7 @@ Tested on Amazon Windows Server 2012 R2 AMI.
 ## Requirements
 
 - Chef 11.6.0 or higher (includes a built-in registry_key resource)
+- Windows Server 2008 R2 or higher due to usage of [window_home](https://github.com/dhoer/chef-windows_home)
 
 ## Platforms
 
@@ -30,6 +31,7 @@ Tested on Amazon Windows Server 2012 R2 AMI.
 ## Cookbook Dependencies
 
 - windows_autologin
+- windows_home
 
 ## Usage
 
