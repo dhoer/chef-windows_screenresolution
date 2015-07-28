@@ -26,7 +26,7 @@ if platform?('windows')
   startup_path = "C:/Users/#{node['windows_screenresolution']['rdp_username']}"\
     '/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup'
 
-  ruby_block "hack to mkdir on windows" do
+  ruby_block 'hack to mkdir on windows' do
     block do
       FileUtils.mkdir_p startup_path
     end
