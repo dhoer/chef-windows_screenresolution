@@ -10,3 +10,6 @@ supports 'windows'
 
 depends 'windows_home', '~> 1.0'
 depends 'windows_autologin', '~> 1.0'
+
+source_url 'https://github.com/dhoer/chef-windows_screenresolution' if respond_to?(:source_url)
+issues_url 'https://github.com/dhoer/chef-windows_screenresolution/issues' if respond_to?(:issues_url)
