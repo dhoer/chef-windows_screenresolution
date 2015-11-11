@@ -6,7 +6,7 @@ if platform?('windows')
   end
 
   if node['windows_screenresolution']['rdp_password'].nil?
-    rdp_password =  node['windows_screenresolution']['password']
+    rdp_password = node['windows_screenresolution']['password']
   else
     rdp_password = node['windows_screenresolution']['rdp_password']
   end
@@ -41,9 +41,10 @@ if platform?('windows')
   template "#{startup_path}/rdp_screenresolution.cmd" do
     source 'rdp_screenresolution.cmd.erb'
     cookbook 'windows_screenresolution'
+    sensitive true
     variables(target: node['windows_screenresolution']['target'],
               user: node['windows_screenresolution']['username'],
-              password: node['windows_screenresolution']['password'],
+              password: node['windows_screenresolution']['password'].gsub('%', '%%'),
               width: node['windows_screenresolution']['width'],
               height: node['windows_screenresolution']['height'])
   end
@@ -76,9 +77,8 @@ if platform?('windows')
     include_recipe 'windows_autologin::default'
   end
 
-  log "screenresolution #{node['windows_screenresolution']['width']}x#{node['windows_screenresolution']['height']}"
+  Chef::Log.info('screenresolution '\
+    "#{node['windows_screenresolution']['width']}x#{node['windows_screenresolution']['height']}")
 else
-  log 'The windows_screenresolution cookbook is only for Windows platform!' do
-    level :warn
-  end
+  Chef::Log.warn('windows_screenresolution cookbook is only for windows platform!')
 end

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3 
+
+- Fix #3 Cannot handle percent character in password
+
 ## 1.0.2
 
 - Fix #2 Multiple rdp_local directories are created under C:\Users 

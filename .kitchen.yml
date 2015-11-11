@@ -8,11 +8,8 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[windows_screenresolution::default]
+      - recipe[windows_screenresolution_test::default]
     attributes:
       windows_screenresolution:
-        username: vagrant
-        password: vagrant
-        rdp_password: N3wPassW0Rd
         width: 1366
         height: 768

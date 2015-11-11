@@ -2,12 +2,9 @@
 
 [![Cookbook Version](http://img.shields.io/cookbook/v/windows_screenresolution.svg?style=flat-square)][cookbook]
 [![Build Status](http://img.shields.io/travis/dhoer/chef-windows_screenresolution.svg?style=flat-square)][travis]
-[![GitHub Issues](http://img.shields.io/github/issues/dhoer/chef-windows_screenresolution.svg?style=flat-square)]
-[github]
 
 [cookbook]: https://supermarket.chef.io/cookbooks/windows_screenresolution
 [travis]: https://travis-ci.org/dhoer/chef-windows_screenresolution
-[github]: https://github.com/dhoer/chef-windows_screenresolution/issues
 
 Sets headless screen resolution on Windows.  It does this by creating a new user called `rdp_local` that has a
 startup script to RDP into the specified user account at specified screen resolution (default is 1920x1080). A
@@ -21,7 +18,7 @@ Tested on Amazon Windows Server 2012 R2 AMI.
 
 ## Requirements
 
-- Chef 11.6.0 or higher (includes a built-in registry_key resource)
+- Chef 11.6+ (registry_key resource)
 - Windows Server 2008 R2 or higher due to usage of [window_home](https://github.com/dhoer/chef-windows_home)
 
 ## Platforms
