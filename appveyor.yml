@@ -29,8 +29,8 @@ build_script:
   - bundle package
   - bundle exec rake
   - bundle exec kitchen converge
+  - ps: Start-Sleep -s 10
 
 test_script:
-  - sleep 120
   - bundle exec kitchen verify
 
