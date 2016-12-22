@@ -1,15 +1,15 @@
 if platform?('windows')
-  if node['windows_screenresolution']['rdp_domain'].nil?
-    rdp_user = node['windows_screenresolution']['rdp_username']
-  else
-    rdp_user = "#{node['windows_screenresolution']['rdp_domain']}\\#{node['windows_screenresolution']['rdp_username']}"
-  end
+  rdp_user = if node['windows_screenresolution']['rdp_domain'].nil?
+               node['windows_screenresolution']['rdp_username']
+             else
+               "#{node['windows_screenresolution']['rdp_domain']}\\#{node['windows_screenresolution']['rdp_username']}"
+             end
 
-  if node['windows_screenresolution']['rdp_password'].nil?
-    rdp_password = node['windows_screenresolution']['password']
-  else
-    rdp_password = node['windows_screenresolution']['rdp_password']
-  end
+  rdp_password = if node['windows_screenresolution']['rdp_password'].nil?
+                   node['windows_screenresolution']['password']
+                 else
+                   node['windows_screenresolution']['rdp_password']
+                 end
 
   user rdp_user do
     password rdp_password
@@ -65,7 +65,7 @@ if platform?('windows')
     command 'netsh advfirewall firewall add rule name="RDP" protocol=TCP dir=in profile=public'\
       ' localport=3389 remoteip=localsubnet localip=any action=allow'
     action :run
-    not_if "netsh advfirewall firewall show rule name=\"RDP\" > nul"
+    not_if 'netsh advfirewall firewall show rule name="RDP" > nul'
   end
 
   # https://docs.chef.io/attributes.html#attribute-precedence

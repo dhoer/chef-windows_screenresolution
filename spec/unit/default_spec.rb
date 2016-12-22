@@ -7,7 +7,7 @@ describe 'windows_screenresolution::default' do
       node.set['windows_screenresolution']['height'] = 900
       node.set['windows_screenresolution']['username'] = 'newuser'
       node.set['windows_screenresolution']['password'] = 'N3wPassW0Rd'
-      stub_command("netsh advfirewall firewall show rule name=\"RDP\" > nul").and_return(nil)
+      stub_command('netsh advfirewall firewall show rule name="RDP" > nul').and_return(nil)
     end.converge(described_recipe)
   end
 
@@ -43,7 +43,8 @@ describe 'windows_screenresolution::default' do
 
   it 'creates rdp screen resolution startup script' do
     expect(chef_run).to create_template(
-      'C:/Users/rdp_local/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/rdp_screenresolution.cmd')
+      'C:/Users/rdp_local/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/rdp_screenresolution.cmd'
+    )
       .with(
         variables: {
           target: 'localhost',
