@@ -1,7 +1,7 @@
 # Windows Screen Resolution Cookbook
 
 [![Cookbook Version](http://img.shields.io/cookbook/v/windows_screenresolution.svg?style=flat-square)][cookbook]
-[![Build Status](http://img.shields.io/appveyor/ci/dhoer/chef-windows_screenresolution/master.svg?style=flat-square)][win]
+[![Build Status](https://img.shields.io/appveyor/ci/dhoer/chef-windows_screenresolution/master.svg?style=flat-square)][win]
 
 [cookbook]: https://supermarket.chef.io/cookbooks/windows_screenresolution
 [win]: https://ci.appveyor.com/project/dhoer/chef-windows_screenresolution
