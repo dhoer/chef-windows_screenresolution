@@ -2,7 +2,7 @@ require 'rspec_helper'
 
 describe 'Firefox Grid' do
   before(:all) do
-    @selenium = Selenium::WebDriver.for(:remote, desired_capabilities: :firefox)
+    @selenium = Selenium::WebDriver.for :firefox
   end
 
   after(:all) do
