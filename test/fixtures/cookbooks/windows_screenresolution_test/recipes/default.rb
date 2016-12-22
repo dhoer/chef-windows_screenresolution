@@ -20,6 +20,7 @@ end
 include_recipe 'windows_screenresolution'
 
 reboot 'screen_resolutuion_requires_reboot' do
+  action :request_reboot
   reason 'Need to reboot when the run completes successfully.'
-  action :reboot_now
+  delay_mins 1
 end
