@@ -23,14 +23,9 @@ install:
   - ps: $env:PATH="C:\Ruby$env:ruby_version\bin;$env:PATH"
   - ps: gem install bundler --quiet --no-ri --no-rdoc
   - ps: Invoke-WebRequest -Uri http://curl.haxx.se/ca/cacert.pem -OutFile c:\projects\kitchen-machine\certs.pem
-  - choco install firefox -version 46.0.1
 
 build_script:
   - bundle package
   - bundle exec rake
-  - bundle exec kitchen converge
-  - ps: Start-Sleep -s 2
-
-test_script:
   - bundle exec kitchen verify
 
