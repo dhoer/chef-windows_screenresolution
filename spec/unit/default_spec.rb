@@ -44,31 +44,34 @@ describe 'windows_screenresolution::default' do
   it 'creates rdp screen resolution startup script' do
     expect(chef_run).to create_template(
       'C:/Users/rdp_local/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/rdp_screenresolution.cmd'
+    ).with(
+      variables: {
+        target: 'localhost',
+        user: 'newuser',
+        password: 'N3wPassW0Rd',
+        width: 1440,
+        height: 900
+      }
     )
-      .with(
-        variables: {
-          target: 'localhost',
-          user: 'newuser',
-          password: 'N3wPassW0Rd',
-          width: 1440,
-          height: 900
-        }
-      )
   end
 
   it 'enables remote desktop connections' do
     expect(chef_run).to create_registry_key('HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server').with(
-      values: [
-        { name: 'fDenyTSConnections', type: :dword, data: 'cfcd208495d565ef66e7dff9f98764da' }
-      ]
+      values: [{
+        name: 'fDenyTSConnections',
+        type: :dword,
+        data: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9'
+      }]
     )
   end
 
   it 'suppresses certificate error popup for rdp logins' do
     expect(chef_run).to create_registry_key('HKLM\SOFTWARE\Microsoft\Terminal Server Client').with(
-      values: [
-        { name: 'AuthenticationLevelOverride', type: :dword, data: 'cfcd208495d565ef66e7dff9f98764da' }
-      ]
+      values: [{
+        name: 'AuthenticationLevelOverride',
+        type: :dword,
+        data: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9'
+      }]
     )
   end
 
