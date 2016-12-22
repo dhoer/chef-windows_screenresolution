@@ -1,21 +1,13 @@
 if platform?('windows')
-  rdp_user = if node['windows_screenresolution']['rdp_domain'].nil?
-               node['windows_screenresolution']['rdp_username']
-             else
-               "#{node['windows_screenresolution']['rdp_domain']}\\#{node['windows_screenresolution']['rdp_username']}"
-             end
-
-  rdp_password = if node['windows_screenresolution']['rdp_password'].nil?
-                   node['windows_screenresolution']['password']
-                 else
-                   node['windows_screenresolution']['rdp_password']
-                 end
+  res = node['windows_screenresolution']
+  rdp_user = res['rdp_domain'].nil? ? res['rdp_username'] : "#{res['rdp_domain']}\\#{res['rdp_username']}"
+  rdp_password = res['rdp_password'].nil? ? res['password'] : res['rdp_password']
 
   user rdp_user do
     password rdp_password
   end
 
-  node['windows_screenresolution']['rdp_groups'].each do |group|
+  res['rdp_groups'].each do |group|
     group group do
       members [rdp_user]
       append true
@@ -28,7 +20,7 @@ if platform?('windows')
     action :create
   end
 
-  startup_path = "C:/Users/#{node['windows_screenresolution']['rdp_username']}"\
+  startup_path = "C:/Users/#{res['rdp_username']}"\
     '/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup'
 
   ruby_block 'hack to mkdir on windows' do
@@ -38,15 +30,19 @@ if platform?('windows')
     not_if { ::File.exist?(startup_path) }
   end
 
+  password = res['password']
+  password = password.gsub('%', '%%') unless password.nil?
   template "#{startup_path}/rdp_screenresolution.cmd" do
     source 'rdp_screenresolution.cmd.erb'
     cookbook 'windows_screenresolution'
     sensitive true
-    variables(target: node['windows_screenresolution']['target'],
-              user: node['windows_screenresolution']['username'],
-              password: node['windows_screenresolution']['password'].gsub('%', '%%'),
-              width: node['windows_screenresolution']['width'],
-              height: node['windows_screenresolution']['height'])
+    variables(
+      target: res['target'],
+      user: res['username'],
+      password: password,
+      width: res['width'],
+      height: res['height']
+    )
   end
 
   # https://technet.microsoft.com/en-us/library/cc722151%28v=ws.10%29.aspx
@@ -69,16 +65,15 @@ if platform?('windows')
   end
 
   # https://docs.chef.io/attributes.html#attribute-precedence
-  if node['windows_screenresolution']['rdp_autologon']
-    node.override['windows_autologin']['username'] = node['windows_screenresolution']['rdp_username']
+  if res['rdp_autologon']
+    node.override['windows_autologin']['username'] = res['rdp_username']
     node.override['windows_autologin']['password'] = rdp_password
-    node.override['windows_autologin']['domain'] = node['windows_screenresolution']['rdp_domain']
+    node.override['windows_autologin']['domain'] = res['rdp_domain']
 
     include_recipe 'windows_autologin::default'
   end
 
-  Chef::Log.info('screenresolution '\
-    "#{node['windows_screenresolution']['width']}x#{node['windows_screenresolution']['height']}")
+  Chef::Log.info("screenresolution #{res['width']}x#{res['height']}")
 else
   Chef::Log.warn('windows_screenresolution cookbook is only for windows platform!')
 end
