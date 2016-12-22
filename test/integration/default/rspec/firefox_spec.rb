@@ -2,10 +2,7 @@ require 'rspec_helper'
 
 describe 'Firefox Grid' do
   before(:all) do
-    Selenium::WebDriver::Firefox.path = 'C:\Program Files (x86)\Mozilla Firefox\firefox.exe'
-    profile = Selenium::WebDriver::Firefox::Profile.new
-    profile.proxy = Selenium::WebDriver::Proxy.new(http: nil)
-    @selenium = Selenium::WebDriver.for :firefox, profile: profile
+    @selenium = Selenium::WebDriver.for :firefox
   end
 
   after(:all) do
