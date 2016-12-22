@@ -9,7 +9,9 @@ describe 'Firefox Grid' do
     @selenium.quit
   end
 
-  it 'Should return display resolution of 1366 x 768' do
+  res = '1366 x 768'
+
+  it "Should return display resolution of #{res}" do
     @selenium.get 'http://www.whatismyscreenresolution.com/'
     element = @selenium.find_element(:id, 'resolutionNumber')
     expect(element.text).to eq(res)
