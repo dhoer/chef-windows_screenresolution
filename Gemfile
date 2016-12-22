@@ -8,5 +8,5 @@ gem 'rubocop'
 group :integration do
   gem 'kitchen-vagrant'
   gem 'test-kitchen'
-  gem 'winrm-transport'
+  gem 'winrm-fs'
 end
