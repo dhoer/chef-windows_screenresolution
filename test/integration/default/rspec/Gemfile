@@ -1,0 +1,5 @@
+source 'http://rubygems.org'
+
+gem 'rspec'
+gem 'rspec-expectations'
+gem 'selenium-webdriver', '~> 3.0'
