@@ -3,10 +3,10 @@ require 'spec_helper'
 describe 'windows_screenresolution::default' do
   let(:chef_run) do
     ChefSpec::SoloRunner.new(platform: 'windows', version: '2012R2') do |node|
-      node.set['windows_screenresolution']['width'] = 1440
-      node.set['windows_screenresolution']['height'] = 900
-      node.set['windows_screenresolution']['username'] = 'newuser'
-      node.set['windows_screenresolution']['password'] = 'N3wPassW0Rd'
+      node.override['windows_screenresolution']['width'] = 1440
+      node.override['windows_screenresolution']['height'] = 900
+      node.override['windows_screenresolution']['username'] = 'newuser'
+      node.override['windows_screenresolution']['password'] = 'N3wPassW0Rd'
       stub_command('netsh advfirewall firewall show rule name="RDP" > nul').and_return(nil)
     end.converge(described_recipe)
   end

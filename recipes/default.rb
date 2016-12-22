@@ -70,9 +70,9 @@ if platform?('windows')
 
   # https://docs.chef.io/attributes.html#attribute-precedence
   if node['windows_screenresolution']['rdp_autologon']
-    node.set['windows_autologin']['username'] = node['windows_screenresolution']['rdp_username']
-    node.set['windows_autologin']['password'] = rdp_password
-    node.set['windows_autologin']['domain'] = node['windows_screenresolution']['rdp_domain']
+    node.override['windows_autologin']['username'] = node['windows_screenresolution']['rdp_username']
+    node.override['windows_autologin']['password'] = rdp_password
+    node.override['windows_autologin']['domain'] = node['windows_screenresolution']['rdp_domain']
 
     include_recipe 'windows_autologin::default'
   end

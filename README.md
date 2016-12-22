@@ -60,8 +60,8 @@ as, if `nil`.
 Set newuser's screen resolution to `1920x1080` (default)
 
 ```ruby
-node.set['windows_screenresolution']['username'] = 'newuser'
-node.set['windows_screenresolution']['password'] = 'N3wPassW0Rd'
+node.override['windows_screenresolution']['username'] = 'newuser'
+node.override['windows_screenresolution']['password'] = 'N3wPassW0Rd'
 
 include_recipe 'windows_screenresolution::default'
 ```
@@ -69,10 +69,10 @@ include_recipe 'windows_screenresolution::default'
 Set newuser's screen resolution to `1366x768`
 
 ```ruby
-node.set['windows_screenresolution']['username'] = 'newuser'
-node.set['windows_screenresolution']['password'] = 'N3wPassW0Rd'
-node.set['windows_screenresolution']['width'] = 1366
-node.set['windows_screenresolution']['height'] = 768
+node.override['windows_screenresolution']['username'] = 'newuser'
+node.override['windows_screenresolution']['password'] = 'N3wPassW0Rd'
+node.override['windows_screenresolution']['width'] = 1366
+node.override['windows_screenresolution']['height'] = 768
 
 include_recipe 'windows_screenresolution::default'
 ```

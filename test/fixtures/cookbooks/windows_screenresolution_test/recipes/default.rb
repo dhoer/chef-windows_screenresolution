@@ -5,8 +5,8 @@ user user do
   password pass
 end
 
-node.set['windows_screenresolution']['username'] = user
-node.set['windows_screenresolution']['password'] = pass
+node.override['windows_screenresolution']['username'] = user
+node.override['windows_screenresolution']['password'] = pass
 
 node['windows_screenresolution']['rdp_groups'].each do |group|
   group "associate user \"#{user}\" with \"#{group}\"" do
