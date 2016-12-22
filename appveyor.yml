@@ -28,6 +28,9 @@ install:
 build_script:
   - bundle package
   - bundle exec rake
+  - bundle exec kitchen converge
 
 test_script:
+  - sleep 120
   - bundle exec kitchen verify
+
