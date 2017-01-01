@@ -1,2 +1,5 @@
 LineLength:
   Enabled: false
+
+BlockLength:
+  Enabled: false

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0
+
+- Add run resource
+
 ## 1.0.4 
 
 - Fix #6 WARN: node.set is deprecated and will be removed in Chef 14

@@ -2,13 +2,17 @@ require 'spec_helper'
 
 describe 'windows_screenresolution::default' do
   let(:chef_run) do
-    ChefSpec::SoloRunner.new(platform: 'windows', version: '2012R2') do |node|
+    ChefSpec::SoloRunner.new(platform: 'windows', version: '2012R2', step_into: 'windows_screenresolution') do |node|
       node.override['windows_screenresolution']['width'] = 1440
       node.override['windows_screenresolution']['height'] = 900
       node.override['windows_screenresolution']['username'] = 'newuser'
       node.override['windows_screenresolution']['password'] = 'N3wPassW0Rd'
       stub_command('netsh advfirewall firewall show rule name="RDP" > nul').and_return(nil)
     end.converge(described_recipe)
+  end
+
+  it 'sets windows_screenresolution' do
+    expect(chef_run).to run_windows_screenresolution('newuser')
   end
 
   it 'creates user' do
@@ -79,7 +83,7 @@ describe 'windows_screenresolution::default' do
     expect(chef_run).to run_execute('open rdp firewall')
   end
 
-  it 'enables autologon for user' do
-    expect(chef_run).to include_recipe('windows_autologin::default')
+  it 'enables windows_autologin' do
+    expect(chef_run).to enable_windows_autologin('set rdp_local')
   end
 end
