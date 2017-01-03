@@ -41,19 +41,19 @@ The `username` and `password` must be set in order to user this cookbook.
 
 #### Attributes
 
-- `node['windows_screenresolution']['username']` - Username of account to remote login as (required).
-- `node['windows_screenresolution']['password']` - Password of account to remote login as (required).
-- `node['windows_screenresolution']['width']` -  Display width in pixels. Defaults to `1920`.
-- `node['windows_screenresolution']['height']` - Display height in pixels. Defaults to `1080`.
-- `node['windows_screenresolution']['target']` -   Identifies the computer or domain name that username and password 
+- `username` - Username of account to remote login as (required).
+- `password` - Password of account to remote login as (required).
+- `width` -  Display width in pixels. Defaults to `1920`.
+- `height` - Display height in pixels. Defaults to `1080`.
+- `target` -   Identifies the computer or domain name that username and password 
 account will be associated with for remote login. Defaults to `localhost`.
-- `node['windows_screenresolution']['rdp_autologon']` - Logon as RDP user automatically on reboot. Defaults to `true`. 
+- `rdp_autologin` - Logon as RDP user automatically on reboot. Defaults to `true`. 
 Note that the password is stored unencrypted under windows registry 
 `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`.
-- `node['windows_screenresolution']['rdp_username']` -  RDP username. Defaults to `rdp_local`.
-- `node['windows_screenresolution']['rdp_password']` - RDP password. Defaults to password of account to remote login 
+- `rdp_username` -  RDP username. Defaults to `rdp_local`.
+- `rdp_password` - RDP password. Defaults to password of account to remote login 
 as, if `nil`.
-- `node['windows_screenresolution']['rdp_domain']` -  RDP domain. Defaults to `nil`.
+- `rdp_domain` -  RDP domain. Defaults to `nil`.
 
 #### Examples
 
@@ -61,9 +61,18 @@ Set newuser's screen resolution to `1920x1080` (default)
 
 ```ruby
 node.override['windows_screenresolution']['username'] = 'newuser'
-node.override['windows_screenresolution']['password'] = 'N3wPassW0Rd'
+node.override['windows_screenresolution']['password'] = my_secret
 
 include_recipe 'windows_screenresolution::default'
+```
+
+or
+
+``` ruby
+windows_screenresolution 'newuser do
+  password my_secret
+  action :run
+end
 ```
 
 Set newuser's screen resolution to `1366x768`
@@ -77,9 +86,20 @@ node.override['windows_screenresolution']['height'] = 768
 include_recipe 'windows_screenresolution::default'
 ```
 
+or 
+
+```ruby
+windows_screenresolution 'newuser do
+  password my_secret
+  width 1366
+  height 768  
+  action :run
+end
+```
+
 ## Getting Help
 
-- Ask specific questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/chef-windows_screenresolution).
+- Ask specific questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/chef+windows+screen+resolution).
 - Report bugs and discuss potential features in 
 [Github issues](https://github.com/dhoer/chef-windows_screenresolution/issues).
 

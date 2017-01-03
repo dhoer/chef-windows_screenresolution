@@ -3,7 +3,7 @@ windows_screenresolution node['windows_screenresolution']['username'] do
   width node['windows_screenresolution']['width']
   height node['windows_screenresolution']['height']
   target node['windows_screenresolution']['target']
-  rdp_autologon node['windows_screenresolution']['rdp_autologon']
+  rdp_autologin node['windows_screenresolution']['rdp_autologin']
   rdp_groups node['windows_screenresolution']['rdp_groups']
   rdp_username node['windows_screenresolution']['rdp_username']
   rdp_password node['windows_screenresolution']['rdp_password']
