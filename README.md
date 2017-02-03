@@ -39,7 +39,27 @@ Tested on Amazon Windows Server 2012 R2 AMI.
 Include default recipe in run list or in another cookbook to set the screen resolution. 
 The `username` and `password` must be set in order to user this cookbook.  
 
-#### Attributes
+Set newuser's screen resolution to `1920x1080` (default)
+
+``` ruby
+windows_screenresolution 'newuser do
+  password my_secret
+  action :run
+end
+```
+
+Set newuser's screen resolution to `1366x768`
+
+```ruby
+windows_screenresolution 'newuser do
+  password my_secret
+  width 1366
+  height 768  
+  action :run
+end
+```
+
+### Attributes
 
 - `username` - Username of account to remote login as (required).
 - `password` - Password of account to remote login as (required).
@@ -53,49 +73,23 @@ Note that the password is stored unencrypted under windows registry
 - `rdp_username` -  RDP username. Defaults to `rdp_local`.
 - `rdp_password` - RDP password. Defaults to password of account to remote login 
 as, if `nil`.
-- `rdp_domain` -  RDP domain. Defaults to `nil`.
 
-#### Examples
+## ChefSpec Matchers
 
-Set newuser's screen resolution to `1920x1080` (default)
+This cookbook includes custom [ChefSpec](https://github.com/sethvargo/chefspec) matchers you can use to test 
+your own cookbooks.
 
-```ruby
-node.override['windows_screenresolution']['username'] = 'newuser'
-node.override['windows_screenresolution']['password'] = my_secret
-
-include_recipe 'windows_screenresolution::default'
-```
-
-or
-
-``` ruby
-windows_screenresolution 'newuser do
-  password my_secret
-  action :run
-end
-```
-
-Set newuser's screen resolution to `1366x768`
+Example Matcher Usage
 
 ```ruby
-node.override['windows_screenresolution']['username'] = 'newuser'
-node.override['windows_screenresolution']['password'] = 'N3wPassW0Rd'
-node.override['windows_screenresolution']['width'] = 1366
-node.override['windows_screenresolution']['height'] = 768
-
-include_recipe 'windows_screenresolution::default'
+expect(chef_run).to run_windows_screenresolution('username').with(
+  password: 'password'
+)
 ```
+      
+Cookbook Matchers
 
-or 
-
-```ruby
-windows_screenresolution 'newuser do
-  password my_secret
-  width 1366
-  height 768  
-  action :run
-end
-```
+- run_windows_screenresolution(resource_name)
 
 ## Getting Help
 

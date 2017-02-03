@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0 2017-02-03
+
+- Remove recipe 
+
 ## 1.1.0 2017-01-02
 
 - Add run resource

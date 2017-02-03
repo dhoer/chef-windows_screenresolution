@@ -4,14 +4,6 @@ def whyrun_supported?
   true
 end
 
-def rdp_user
-  if new_resource.rdp_domain.nil?
-    new_resource.rdp_username
-  else
-    "#{new_resource.rdp_domain}\\#{new_resource.rdp_username}"
-  end
-end
-
 def rdp_password
   if new_resource.rdp_password.nil?
     new_resource.password
@@ -22,19 +14,19 @@ end
 
 action :run do
   if platform?('windows')
-    user rdp_user do
+    user new_resource.rdp_username do
       password rdp_password
     end
 
     new_resource.rdp_groups.each do |group|
       group group do
-        members [rdp_user]
+        members [new_resource.rdp_username]
         append true
         action :modify
       end
     end
 
-    windows_home rdp_user do
+    windows_home new_resource.rdp_username do
       password rdp_password
       sensitive new_resource.sensitive
       action :create
@@ -89,7 +81,6 @@ action :run do
     windows_autologin "set #{new_resource.rdp_username}" do
       username new_resource.rdp_username
       password rdp_password
-      domain new_resource.rdp_domain
       sensitive new_resource.sensitive
       only_if { new_resource.rdp_autologin }
     end

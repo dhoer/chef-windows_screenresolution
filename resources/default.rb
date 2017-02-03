@@ -11,7 +11,6 @@ attribute :rdp_autologin, kind_of: [TrueClass, FalseClass], default: true
 attribute :rdp_groups, kind_of: Array, default: ['Administrators', 'Remote Desktop Users']
 attribute :rdp_username, kind_of: String, default: 'rdp_local'
 attribute :rdp_password, kind_of: [String, NilClass]
-attribute :rdp_domain, kind_of: [String, NilClass]
 
 attribute :sensitive, kind_of: [TrueClass, FalseClass] # , default: true - see initialize below
 

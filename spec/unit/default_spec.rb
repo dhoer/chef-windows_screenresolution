@@ -1,23 +1,35 @@
 require 'spec_helper'
 
-describe 'windows_screenresolution::default' do
+describe 'windows_screenresolution_test::default' do
   let(:chef_run) do
     ChefSpec::SoloRunner.new(platform: 'windows', version: '2012R2', step_into: 'windows_screenresolution') do |node|
       node.override['windows_screenresolution']['width'] = 1440
       node.override['windows_screenresolution']['height'] = 900
-      node.override['windows_screenresolution']['username'] = 'newuser'
-      node.override['windows_screenresolution']['password'] = 'N3wPassW0Rd'
+      node.override['windows_screenresolution']['username'] = 'display'
+      node.override['windows_screenresolution']['password'] = '%2wNrk6z%Y-eJrv'
       stub_command('netsh advfirewall firewall show rule name="RDP" > nul').and_return(nil)
     end.converge(described_recipe)
   end
 
+  it 'creates windows user' do
+    expect(chef_run).to create_user('display')
+  end
+
+  it 'associate user with admin group' do
+    expect(chef_run).to modify_group('associate user "display" with "Administrators"')
+  end
+
+  it 'associate user with rdp group' do
+    expect(chef_run).to modify_group('associate user "display" with "Remote Desktop Users"')
+  end
+
   it 'sets windows_screenresolution' do
-    expect(chef_run).to run_windows_screenresolution('newuser')
+    expect(chef_run).to run_windows_screenresolution('display')
   end
 
   it 'creates user' do
     expect(chef_run).to create_user('rdp_local').with(
-      password: 'N3wPassW0Rd'
+      password: '%2wNrk6z%Y-eJrv'
     )
   end
 
@@ -37,7 +49,7 @@ describe 'windows_screenresolution::default' do
 
   it "generates user's home directory" do
     expect(chef_run).to create_windows_home('rdp_local').with(
-      password: 'N3wPassW0Rd'
+      password: '%2wNrk6z%Y-eJrv'
     )
   end
 
@@ -51,10 +63,10 @@ describe 'windows_screenresolution::default' do
     ).with(
       variables: {
         target: 'localhost',
-        user: 'newuser',
-        password: 'N3wPassW0Rd',
-        width: 1440,
-        height: 900
+        user: 'display',
+        password: '%%2wNrk6z%%Y-eJrv',
+        width: 1920,
+        height: 1080
       }
     )
   end

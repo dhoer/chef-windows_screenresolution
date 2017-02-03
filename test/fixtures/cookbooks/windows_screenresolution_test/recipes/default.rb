@@ -5,10 +5,9 @@ user user do
   password pass
 end
 
-node.override['windows_screenresolution']['username'] = user
-node.override['windows_screenresolution']['password'] = pass
+groups = ['Administrators', 'Remote Desktop Users']
 
-node['windows_screenresolution']['rdp_groups'].each do |group|
+groups.each do |group|
   group "associate user \"#{user}\" with \"#{group}\"" do
     group_name group
     members [user]
@@ -17,4 +16,8 @@ node['windows_screenresolution']['rdp_groups'].each do |group|
   end
 end
 
-include_recipe 'windows_screenresolution'
+windows_screenresolution user do
+  password pass
+  rdp_groups groups
+  action :run
+end
