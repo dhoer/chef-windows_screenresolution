@@ -11,4 +11,4 @@ version '1.1.0'
 supports 'windows'
 
 depends 'windows_home'
-depends 'windows_autologin'
+depends 'windows_autologin', '>= 3.0'
