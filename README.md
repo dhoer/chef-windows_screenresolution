@@ -63,16 +63,19 @@ end
 
 - `username` - Username of account to remote login as (required).
 - `password` - Password of account to remote login as (required).
-- `width` -  Display width in pixels. Defaults to `1920`.
-- `height` - Display height in pixels. Defaults to `1080`.
-- `target` -   Identifies the computer or domain name that username and password 
-account will be associated with for remote login. Defaults to `localhost`.
-- `rdp_autologin` - Logon as RDP user automatically on reboot. Defaults to `true`. 
-Note that the password is stored unencrypted under windows registry 
-`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`.
-- `rdp_username` -  RDP username. Defaults to `rdp_local`.
-- `rdp_password` - RDP password. Defaults to password of account to remote login 
-as, if `nil`.
+- `width` -  Display width in pixels. Default: `1920`.
+- `height` - Display height in pixels. Default: `1080`.
+- `target` -   Identifies the computer or domain name that username and 
+password account will be associated with for remote login. 
+Default: `localhost`.
+- `rdp_autologin` - Logon as RDP user automatically on reboot. Default:
+`true`. Note that the password is stored unencrypted under windows 
+registry `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`.
+- `rdp_username` -  RDP username. Default: `rdp_local`.
+- `rdp_password` - RDP password. Defaults to password of account to 
+remote login as, if `nil`.
+- `sensitive` - Ensure that sensitive resource data is not logged by 
+the chef-client. Default: `true`.
 
 ## ChefSpec Matchers
 
