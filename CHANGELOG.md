@@ -1,8 +1,12 @@
 # Changelog
 
+## 3.0.0 2017-03-17
+
+- Rename sensitive attribute to confidential to be Chef 13 compatible
+
 ## 2.0.0 2017-02-03
 
-- Remove recipe 
+- Remove default recipe 
 
 ## 1.1.0 2017-01-02
 

@@ -74,7 +74,7 @@ registry `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`.
 - `rdp_username` -  RDP username. Default: `rdp_local`.
 - `rdp_password` - RDP password. Defaults to password of account to 
 remote login as, if `nil`.
-- `sensitive` - Ensure that sensitive resource data is not logged by 
+- `confidential` - Ensure that sensitive resource data is not logged by 
 the chef-client. Default: `true`.
 
 ## ChefSpec Matchers
